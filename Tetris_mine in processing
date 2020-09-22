@@ -6,7 +6,7 @@ int c = 0;
 int x = 0;
 int y = 0; //579
 int temph = 0;
-int tempc = 0;
+int[] limy = new int[10];
 boolean cp = true;
 boolean pe = false;
 //Variables de las figuras
@@ -50,7 +50,7 @@ void draw() {
 
 void keyPressed() {
   if (key == CODED) {
-    if (keyCode == UP && y+30*c < 579) {
+    if (keyCode == UP && c < 19) {
       if ((tRotation == tR1 && x+hor*30 == block1) || (tRotation == tR2 && x+hor*30 == block2)) {
         tRotation+=0;
       } else {
@@ -82,11 +82,12 @@ Boolean siguiente() {
   if (cp == true) {
     cp = false;
     return true;
-  } else if (y+30*c >= 579) {
+  } else if (y+30*c >= 9+(limy[temph])*30) {
     if (millis() >= last+1400) {
       c = -1;
       cp = false;
       pe = true;
+      cambioT();
       return true;
     }
   }
@@ -95,9 +96,9 @@ Boolean siguiente() {
 
 void drawP() {
   sigpieza();
+  temph = hor+5;
   if (millis() >= last+1400) {
     c += 1;
-    temph = hor+5;
     last = millis();
   }
   if (rand == "T") {
@@ -278,7 +279,6 @@ void displayT() {
   stroke(152, 147, 119);
   pushMatrix();
   translate(151, 9);
-  cambioT();
   for (int i = 0; i <= col; i ++) {
     line(i*30, 0, i*30, fil*30);
   }
@@ -303,11 +303,38 @@ void cambioT() {
   if (c < 1 && pe == true) {
     if (rand == "T") {
       if (tRotation == 0) {
-        tablero[temph][c+1] = 1;
-        //tablero[temph][c] = 1;
-        //tablero[temph-1][c] = 1;
-        //tablero[temph+1][c] = 1;
-        //tablero[0][19] = 0;
+        tablero[temph][limy[temph]] = 1;
+        tablero[temph][limy[temph]-1] = 1;
+        tablero[temph-1][limy[temph]-1] = 1;
+        tablero[temph+1][limy[temph]-1] = 1;
+        limy[temph]-=2;
+        limy[temph+1]-=2;
+        limy[temph-1]-=2;
+      }
+      if (tRotation == 1) {
+        tablero[temph][limy[temph]] = 1;
+        tablero[temph][limy[temph]-1] = 1;
+        tablero[temph][limy[temph]-2] = 1;
+        tablero[temph+1][limy[temph]-1] = 1;
+        limy[temph]-=3;
+        limy[temph+1]-=2;
+      }
+      if (tRotation == 2) {
+        tablero[temph][limy[temph]] = 1;
+        tablero[temph][limy[temph]-1] = 1;
+        tablero[temph-1][limy[temph]] = 1;
+        tablero[temph+1][limy[temph]] = 1;
+        limy[temph]-=2;
+        limy[temph+1]--;
+        limy[temph-1]--;
+      }
+      if (tRotation == 3) {
+        tablero[temph-1][limy[temph]-1] = 1;
+        tablero[temph][limy[temph]] = 1;
+        tablero[temph][limy[temph]-1] = 1;
+        tablero[temph][limy[temph]-2] = 1;
+        limy[temph]-=2;
+        limy[temph-1]-=3;
       }
     }
   }
@@ -320,10 +347,10 @@ void Tablero() {
       tablero[i][j] = 0;
     }
   }
-  for(int i = 0; i < 40; i++){
+  for (int i = 0; i < 40; i++) {
     fondox[i] = 0;
   }
-  //for(int i = 0; i < 10; i++){
-  //  fondox[i] = 0;
-  //}
+  for (int i = 0; i < 10; i++) {
+    limy[i] = 19;
+  }
 }
