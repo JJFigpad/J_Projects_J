@@ -5,11 +5,10 @@ int last = 0;
 int c = 0;
 int x = 0;
 int y = 0; //579
-int tempy = -2;
-int tempx = 0;
-int tempp = 0;
-int[] tempc = new int[3];
+int temph = 0;
+int tempc = 0;
 boolean cp = true;
+boolean pe = false;
 //Variables de las figuras
 int hor = 0;
 int lim1 = 0;
@@ -30,23 +29,28 @@ String[] piezas = {"T", "L", "J", "O", "Z", "S", "I"};
 String rand;
 //Variables del tablero
 int[][] tablero = new int[col][fil];
-int c1, c2, c3;
+int[] fondox = new int[40];
+//int[] fondox = new int[12];
 
 
 void setup() {
   size(610, 620, P2D);
+  background(155, 155, 155);
+  Tablero();
   //textSize(20);
 }
 void draw() {
-  background(155, 155, 155);
-  displayT(50, 50, 50);
+  push();
+  fill(0);
+  rect(151, 0, 300, 10);
+  pop();
+  displayT();
   drawP();
-  fill(255);
 }
 
 void keyPressed() {
   if (key == CODED) {
-    if (keyCode == UP) {
+    if (keyCode == UP && y+30*c < 579) {
       if ((tRotation == tR1 && x+hor*30 == block1) || (tRotation == tR2 && x+hor*30 == block2)) {
         tRotation+=0;
       } else {
@@ -54,7 +58,7 @@ void keyPressed() {
       }
     }
     tRotation = tRotation < 0 ? 3 : tRotation % 4;
-    if (keyCode == DOWN) {
+    if (keyCode == DOWN && y+30*c < 579) {
       c++;
     }
     if (keyCode == LEFT && (270+hor*30) >= lim1) {
@@ -68,32 +72,33 @@ void keyPressed() {
 //Funciones de las piezas
 void sigpieza() {
   if (siguiente() == true) {
-    rand = piezas[int(random(7))]; //int(random(7))
+    rand = piezas[0]; //int(random(7))
     tRotation = int(random(4));
+    hor = 0;
   }
 }
 
 Boolean siguiente() {
-  if (cp == true || y+30*c >= 579) {
+  if (cp == true) {
     cp = false;
-    if (y+30*c >= 579 /*&& millis() >= last+1400*/) {
-      tempx = x+hor*30;
-      tempc[0] = c1;
-      tempc[1] = c2;
-      tempc[2] = c3;
-      c = 0;
-      hor = 0;
-    }
     return true;
+  } else if (y+30*c >= 579) {
+    if (millis() >= last+1400) {
+      c = -1;
+      cp = false;
+      pe = true;
+      return true;
+    }
   }
   return false;
 }
 
 void drawP() {
   sigpieza();
-  if (millis() >= last+1400 && y+30*c < 580) {
-    last = millis();
+  if (millis() >= last+1400) {
     c += 1;
+    temph = hor+5;
+    last = millis();
   }
   if (rand == "T") {
     tR1 = 1;
@@ -101,7 +106,7 @@ void drawP() {
     block1 = 150;
     block2 = 420;
     push();
-    fill(c1 = 191, c2 = 98, c3 = 255);
+    fill(191, 98, 255);
     translate(hor*30, c*30);
     for (int i = 0; i <= 8; i++) {
       if ((T[tRotation] & (1 << 8 - i)) != 0) {
@@ -150,7 +155,7 @@ void drawP() {
     block1 = 181;
     block2 = 150;
     push();
-    fill(c1 = 21, c2 = 79, c3 = 212);
+    fill(21, 79, 212);
     translate(hor*30, c*30);
     for (int i = 0; i <= 8; i++) {
       if ((J[tRotation] & (1 << 8 - i)) != 0) {
@@ -191,7 +196,7 @@ void drawP() {
     block1 = 420;
     block2 = 420;
     push();
-    fill(c1 = 68, c2 = 120, c3 = 0);
+    fill(68, 120, 0);
     translate(hor*30, c*30);
     for (int i = 0; i <= 8; i++) {
       if ((Z[tRotation] & (1 << 8 - i)) != 0) {
@@ -241,7 +246,7 @@ void drawP() {
     block1 = 151;
     block2 = 151;
     push();
-    fill(c1 = 0, c2 = 204, c3 = 204);
+    fill(0, 204, 204);
     translate(hor*30, c*30);
     for (int i = 0; i <= 15; i++) {
       if ((I[tRotation] & (1 << 15 - i)) != 0) {
@@ -268,33 +273,57 @@ void drawP() {
 }
 
 //Funciones del tablero
-void displayT(int c1, int c2, int c3) {
-  this.c1 = c1;
-  this.c2 = c2;
-  this.c3 = c3;
-  for (int i = 0; i < col; i++) {
-    for (int j = 0; j < fil; j++) {
-      tablero[i][j] = 0;
-    }
-  }
+void displayT() {
   strokeWeight(3.5);
   stroke(152, 147, 119);
   pushMatrix();
   translate(151, 9);
+  cambioT();
   for (int i = 0; i <= col; i ++) {
     line(i*30, 0, i*30, fil*30);
   }
   for (int j = 0; j <= fil; j ++) {
     line(0, j*30, col*30, j*30);
   }
-
   for (int i = 0; i < col; i ++) {
     for (int j = 0; j < fil; j ++) {
       if (tablero[i][j] == 0) {
-        fill(c1, c2, c3);
+        fill(50, 50, 50);
+        rect(i*30, j*30, 30, 30);
+      } else if (tablero[i][j] == 1) {
+        fill(191, 98, 255);
         rect(i*30, j*30, 30, 30);
       }
     }
   }
   popMatrix();
+}
+
+void cambioT() {
+  if (c < 1 && pe == true) {
+    if (rand == "T") {
+      if (tRotation == 0) {
+        tablero[temph][c+1] = 1;
+        //tablero[temph][c] = 1;
+        //tablero[temph-1][c] = 1;
+        //tablero[temph+1][c] = 1;
+        //tablero[0][19] = 0;
+      }
+    }
+  }
+  println(temph);
+}
+
+void Tablero() {
+  for (int i = 0; i < col; i++) {
+    for (int j = 0; j < fil; j++) {
+      tablero[i][j] = 0;
+    }
+  }
+  for(int i = 0; i < 40; i++){
+    fondox[i] = 0;
+  }
+  //for(int i = 0; i < 10; i++){
+  //  fondox[i] = 0;
+  //}
 }
