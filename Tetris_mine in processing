@@ -3,20 +3,18 @@ final int col = 10;
 final int fil = 20;
 int last = 0;
 int c = 0;
-int c_c = 0;
 int x = 0;
 int y = 0; //579
 int temph = 0;
 int tempc = 0;
 boolean cp = true;
-boolean pe = false;
 //Variables para puntos y niveles
 int score = 0;
 int nivel = 0;
 int vel = 0;
 
 void setup() {
-  size(610, 620, P2D);
+  size(610, 620);
   Tablero();
   textSize(20);
 }
@@ -32,7 +30,7 @@ void draw() {
     push();
     textSize(55);
     fill(255);
-    text("Game Over", 160, 320);
+    text("Game Over", 155, 320);
     pop();
   }
 }
@@ -59,15 +57,13 @@ void keyPressed() {
   }
 }
 
-void Extras() {
+void Extras() { //Texto y decoracion
   push();
   textSize(40);
-  fill(255,0,0);
+  fill(255, 0, 0);
   text("TETRIS", 465, 115);
   pop();
-  push();
-  fill(255,0,0);
-  //text("Estadisticas: ", 480, 370);
+  fill(255, 0, 0);
   text("Lineas:", 30, 230);
   text("Puntaje:", 30, 360);
   text("Nivel:", 480, 300);
@@ -75,42 +71,39 @@ void Extras() {
   text((nivel+1), 500, 330);
   text(ct1, 50, 260);
   text(score, 50, 390);
-  pop();
-  push();
-  fill(0);
-  rect(151, 0, 300, 10);
-  pop();
 }
 
-Boolean Final() {
-  if ((c < 1 || tempc <= 1) && tablero[temph][c_c] != 0)
-    return true;
+Boolean Final() { //Game over
+  if (c < 1 || tempc <= 1) {
+    if ((rand != "I" && tablero[temph][c+1] != 0) || (rand == "I" && tablero[temph+3][c+1] != 0)) {
+      return true;
+    }
+  }
   return false;
 }
-
 //Colisiones y jugadas validas
-Boolean limyP() {
+Boolean limyP() { //Colision inferior de cada pieza
   if (rand == "T") {
     if (tRotation == 0 && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph][c_c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph][c+1] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph+1][c_c] == 0 && tablero[temph][c_c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+1][c+1] == 0 && tablero[temph][c+1] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
-    } else if (tRotation == 3) {
-      if (tablero[temph][c_c] == 0 && tablero[temph+1][c_c+1] == 0) {
+    } else if (tRotation == 3 && c > 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph+1][c+2] == 0) {
         return true;
       } else {
         return false;
@@ -118,25 +111,25 @@ Boolean limyP() {
     }
   } else if (rand == "L") {
     if (tRotation == 0 && c > 0) {
-      if (tablero[temph+1][c] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph+1][c] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c > 0) {
-      if (tablero[temph][c_c+1] == 0 && tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph][c+2] == 0 && tablero[temph+1][c+2] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 3 && c > 0) {
-      if (tablero[temph][c_c+1] == 0 && tablero[temph+1][c_c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph][c+2] == 0 && tablero[temph+1][c+1] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -144,45 +137,45 @@ Boolean limyP() {
     }
   } else if (rand == "J") {
     if (tRotation == 0 && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1) {
-      if (tablero[temph][c_c+1] == 0 && tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph][c+2] == 0 && tablero[temph+1][c+2] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph+2][c] == 0) {
         return true;
       } else {
         return false;
       }
     } else if ((tRotation == 3) && c > 0) {
-      if (tablero[temph+2][c_c+1] == 0 && tablero[temph+1][c_c] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph+2][c+2] == 0 && tablero[temph+1][c+1] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     }
   } else if (rand == "O" && c > 0) {
-    if (tablero[temph][c_c] == 0 && tablero[temph+1][c_c] == 0) {
+    if (tablero[temph][c+1] == 0 && tablero[temph+1][c+1] == 0) {
       return true;
     } else {
       return false;
     }
   } else if (rand == "Z") {
     if ((tRotation == 0 || tRotation == 2) && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph][c_c+1] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph][c+2] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph][c_c] == 0 && tablero[temph+1][c_c+1] == 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph+1][c+2] == 0) {
         return true;
       } else {
         return false;
@@ -190,27 +183,27 @@ Boolean limyP() {
     }
   } else if (rand == "S") {
     if ((tRotation == 0 || tRotation == 2) && c > 0) {
-      if (tablero[temph+1][c_c+1] == 0 && tablero[temph+2][c_c+1] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph+1][c+2] == 0 && tablero[temph+2][c+2] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph][c_c+1] == 0 && tablero[temph+1][c_c] == 0) {
+      if (tablero[temph][c+2] == 0 && tablero[temph+1][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     }
   } else if (rand == "I") {
-    if ((tRotation == 0 || tRotation == 2) && c >= 1 && temph >= 0) {
-      if (tablero[temph+3][c_c+2] == 0) {
+    if ((tRotation == 0 || tRotation == 2) && c >= 1 /*&& temph >= 0*/) {
+      if (tablero[temph+3][c+3] == 0) {
         return true;
       } else {
         return false;
       }
     } else if ((tRotation == 1 || tRotation == 3) && (c > 0 && temph+1 > 0)) {
-      if (tablero[temph][c_c] == 0 && tablero[temph+1][c_c] == 0 && tablero[temph+2][c_c] == 0 && tablero[temph+3][c_c] == 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph+1][c+1] == 0 && tablero[temph+2][c+1] == 0 && tablero[temph+3][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -220,16 +213,16 @@ Boolean limyP() {
   return true;
 }
 
-Boolean limxiP() {
+Boolean limxiP() { //Colision a izquierda de cada pieza
   if (rand == "T") {
     if (tRotation == 0) {
-      if (tablero[temph-1][c] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph-1][c] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c > 0) {
-      if (tablero[temph][c-1] == 0 && tablero[temph][c] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph][c-1] == 0 && tablero[temph][c] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         //if (tablero[temph][c] != 0 && tablero[temph][c-1] != 0)
@@ -242,7 +235,7 @@ Boolean limxiP() {
         return false;
       }
     } else if (tRotation == 3 && c >= 1) {
-      if (tablero[temph-1][c-1] == 0 && tablero[temph][c] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph-1][c-1] == 0 && tablero[temph][c] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -250,25 +243,25 @@ Boolean limxiP() {
     }
   } else if (rand =="L") {
     if (tRotation == 0 && c >= 1) {
-      if (tablero[temph][c-1] == 0 && tablero[temph+1][c_c] == 0 && tablero[temph+1][c] == 0) {
+      if (tablero[temph][c-1] == 0 && tablero[temph+1][c+1] == 0 && tablero[temph+1][c] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c >= 1) {
-      if (tablero[temph-1][c_c] == 0 && tablero[temph+1][c] == 0) {
+      if (tablero[temph-1][c+1] == 0 && tablero[temph+1][c] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph][c_c] == 0 && tablero[temph][c-1] == 0 && tablero[temph][c] == 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph][c-1] == 0 && tablero[temph][c] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 3 && c >= 1) {
-      if (tablero[temph-1][c_c] == 0 && tablero[temph-1][c] == 0) {
+      if (tablero[temph-1][c+1] == 0 && tablero[temph-1][c] == 0) {
         return true;
       } else {
         return false;
@@ -276,25 +269,25 @@ Boolean limxiP() {
     }
   } else if (rand =="J") {
     if (tRotation == 0 && c > 0) {
-      if (tablero[temph][c_c] == 0 && tablero[temph+1][c] == 0 && tablero[temph+1][c-1] == 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph+1][c] == 0 && tablero[temph+1][c-1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c > 0) {
-      if (tablero[temph-1][c] == 0 && tablero[temph-1][c_c] == 0) {
+      if (tablero[temph-1][c] == 0 && tablero[temph-1][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph][c] == 0 && tablero[temph][c_c] == 0 && tablero[temph][c-1] == 0) {
+      if (tablero[temph][c] == 0 && tablero[temph][c+1] == 0 && tablero[temph][c-1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 3 && c >=1) {
-      if (tablero[temph-1][c] == 0 && tablero[temph+1][c_c] == 0) {
+      if (tablero[temph-1][c] == 0 && tablero[temph+1][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -308,13 +301,13 @@ Boolean limxiP() {
     }
   } else if (rand == "Z") {
     if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph-1][c-1] == 0 && tablero[temph-1][c] == 0 && tablero[temph][c_c] == 0) {
+      if (tablero[temph-1][c-1] == 0 && tablero[temph-1][c] == 0 && tablero[temph][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph-1][c_c] == 0 && tablero[temph][c] == 0) {
+      if (tablero[temph-1][c+1] == 0 && tablero[temph][c] == 0) {
         return true;
       } else {
         return false;
@@ -322,13 +315,13 @@ Boolean limxiP() {
     }
   } else if (rand == "S") {
     if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph][c-1] == 0 && tablero[temph-1][c] == 0 && tablero[temph-1][c_c] == 0) {
+      if (tablero[temph][c-1] == 0 && tablero[temph-1][c] == 0 && tablero[temph-1][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph][c_c] == 0 && tablero[temph-1][c] == 0) {
+      if (tablero[temph][c+1] == 0 && tablero[temph-1][c] == 0) {
         return true;
       } else {
         return false;
@@ -336,7 +329,7 @@ Boolean limxiP() {
     }
   } else if (rand == "I") {
     if ((tRotation == 0 || tRotation == 2) && c > 0) {
-      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c_c] == 0 && tablero[temph+2][c_c+1] == 0) {
+      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c+1] == 0 && tablero[temph+2][c+2] == 0) {
         return true;
       } else {
         return false;
@@ -352,16 +345,16 @@ Boolean limxiP() {
   return false;
 }
 
-Boolean limxdP() {
+Boolean limxdP() { //Colision a derecha de cada pieza
   if (rand == "T") {
     if (tRotation == 0) {
-      if (tablero[temph+3][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+3][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c >=1) {
-      if (tablero[temph+2][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+2][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -373,7 +366,7 @@ Boolean limxdP() {
         return false;
       }
     } else if (tRotation == 3 && c >=1) {
-      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -381,25 +374,25 @@ Boolean limxdP() {
     }
   } else if (rand == "L") {
     if (tRotation == 0) {
-      if (tablero[temph+3][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+3][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c >=1) {
-      if (tablero[temph+2][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+2][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2) {
-      if (tablero[temph+2][c_c] == 0 && tablero[temph+2][c_c] == 0 && tablero[temph+3][c_c] == 0) {
+      if (tablero[temph+2][c+1] == 0 && tablero[temph+2][c+1] == 0 && tablero[temph+3][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 3 && c >=1) {
-      if (tablero[temph+3][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+3][c_c] == 0) {
+      if (tablero[temph+3][c-1] == 0 && tablero[temph+3][c] == 0 && tablero[temph+3][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -407,25 +400,25 @@ Boolean limxdP() {
     }
   } else if (rand == "J") {
     if (tRotation == 0 && c > 0) {
-      if (tablero[temph+3][c] == 0 && tablero[temph+3][c_c] == 0 && tablero[temph+3][c-1] == 0) {
+      if (tablero[temph+3][c] == 0 && tablero[temph+3][c+1] == 0 && tablero[temph+3][c-1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 1 && c > 0) {
-      if (tablero[temph+1][c] == 0 && tablero[temph+3][c_c] == 0) {
+      if (tablero[temph+1][c] == 0 && tablero[temph+3][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 2 && c > 0) {
-      if (tablero[temph+2][c_c] == 0 && tablero[temph+2][c] == 0 && tablero[temph+3][c-1] == 0) {
+      if (tablero[temph+2][c+1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+3][c-1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 3 && c >=1) {
-      if (tablero[temph+3][c] == 0 && tablero[temph+3][c_c] == 0) {
+      if (tablero[temph+3][c] == 0 && tablero[temph+3][c+1] == 0) {
         return true;
       } else {
         return false;
@@ -439,13 +432,13 @@ Boolean limxdP() {
     }
   } else if (rand == "Z") {
     if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph+1][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c_c] == 0) {
+      if (tablero[temph+1][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+2][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph+2][c_c] == 0 && tablero[temph+3][c] == 0) {
+      if (tablero[temph+2][c+1] == 0 && tablero[temph+3][c] == 0) {
         return true;
       } else {
         return false;
@@ -453,13 +446,13 @@ Boolean limxdP() {
     }
   } else if (rand == "S") {
     if ((tRotation == 1 || tRotation == 3) && c > 0) {
-      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+1][c_c] == 0) {
+      if (tablero[temph+2][c-1] == 0 && tablero[temph+2][c] == 0 && tablero[temph+1][c+1] == 0) {
         return true;
       } else {
         return false;
       }
     } else if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph+3][c_c] == 0 && tablero[temph+2][c] == 0) {
+      if (tablero[temph+3][c+1] == 0 && tablero[temph+2][c] == 0) {
         return true;
       } else {
         return false;
@@ -467,7 +460,7 @@ Boolean limxdP() {
     }
   } else if (rand == "I") {
     if ((tRotation == 0 || tRotation == 2) && c > 0) {
-      if (tablero[temph+4][c-1] == 0 && tablero[temph+4][c] == 0 && tablero[temph+4][c_c] == 0 && tablero[temph+4][c_c+1] == 0) {
+      if (tablero[temph+4][c-1] == 0 && tablero[temph+4][c] == 0 && tablero[temph+4][c+1] == 0 && tablero[temph+4][c+2] == 0) {
         return true;
       } else {
         return false;
@@ -483,9 +476,9 @@ Boolean limxdP() {
   return false;
 }
 
-Boolean RotV() {
+Boolean RotV() { //Casos especiales donde so se puede rotar cada pieza
   if (rand == "T") {
-    if (limyP() == false && tRotation == 2 && tablero[temph+1][c_c] != 0) {
+    if (limyP() == false && tRotation == 2 && tablero[temph+1][c+1] != 0) {
       return false;
     } else if (limxiP() == false && tRotation == 1 && tablero[temph][c] != 0) {
       return false;
@@ -493,35 +486,35 @@ Boolean RotV() {
       return false;
     }
   } else if (rand == "L" && c > 0) {
-    if (limyP() == false && tRotation == 3 && (tablero[temph+1][c_c] != 0 || tablero[temph+2][c_c] != 0)) {
+    if (limyP() == false && tRotation == 3 && (tablero[temph+1][c+1] != 0 || tablero[temph+2][c+1] != 0)) {
       return false;
-    } else if ((tablero[temph+1][c_c] != 0 || tablero[temph+1][c] != 0  || tablero[temph][c_c] != 0) && (tRotation == 0 || tRotation == 2)) {
+    } else if ((tablero[temph+1][c+1] != 0 || tablero[temph+1][c] != 0  || tablero[temph][c+1] != 0) && (tRotation == 0 || tRotation == 2)) {
       return false;
     } else if (tRotation == 2 && (tablero[temph+2][c] != 0 || tablero[temph+2][c-1] != 0)) {
       return false;
     }
   } else if (rand == "J" && c > 0) {
-    if (limyP() == false && tRotation == 3 && (tablero[temph+1][c_c] != 0 || tablero[temph][c_c] != 0)) {
+    if (limyP() == false && tRotation == 3 && (tablero[temph+1][c+1] != 0 || tablero[temph][c+1] != 0)) {
       return false;
-    } else if ((tablero[temph][c_c] != 0 || tablero[temph][c] != 0) && (tRotation == 0 || tRotation == 2)) {
+    } else if ((tablero[temph][c+1] != 0 || tablero[temph][c] != 0) && (tRotation == 0 || tRotation == 2)) {
       return false;
-    } else if ((tRotation == 2) && (tablero[temph+2][c] != 0 || tablero[temph+2][c_c] != 0)) {
+    } else if ((tRotation == 2) && (tablero[temph+2][c] != 0 || tablero[temph+2][c+1] != 0)) {
       return false;
     }
   } else if (rand == "Z") {
     if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph+2][c_c] != 0)
+      if (tablero[temph+2][c+1] != 0)
         return false;
     } else if (tRotation == 1 || tRotation == 3) {
-      if (tablero[temph][c_c] != 0)
+      if (tablero[temph][c+1] != 0)
         return false;
     }
   } else if (rand == "S") {
     if (tRotation == 0 || tRotation == 2) {
-      if (tablero[temph][c_c] != 0)
+      if (tablero[temph][c+1] != 0)
         return false;
     } else if (tRotation == 1 || tRotation == 3) {
-      if (tablero[temph+1][c_c] != 0)
+      if (tablero[temph+1][c+1] != 0)
         return false;
     }
   } else if (rand == "I" && c > 0) {
@@ -529,14 +522,13 @@ Boolean RotV() {
       if ((tRotation == 0 || tRotation == 2) && (tablero[temph+2][c] != 0 || tablero[temph+1][c] != 0 || tablero[temph][c] != 0)) {
         return false;
       }
-      if (((tRotation == 1 || tRotation == 3) && (tablero[temph+3][c-1] != 0 || tablero[temph+3][c] != 0 || tablero[temph+3][c_c] != 0)) || c >= 18) {
+      if (((tRotation == 1 || tRotation == 3) && (tablero[temph+3][c-1] != 0 || tablero[temph+3][c] != 0 || tablero[temph+3][c+1] != 0)) || c >= 18) {
         return false;
       }
     }
   }
   return true;
 }
-
 //Variables de las figuras
 int hor = 0;
 int lim1 = 0;
@@ -557,7 +549,7 @@ String[] piezas = {"T", "L", "J", "O", "Z", "S", "I"};
 String rand;
 
 //Funciones de las piezas
-void sigpieza() {
+void sigpieza() { //Siguiente empieza desde arriba del tablero
   if (siguiente() == true) {
     tRotation = int(random(4));
     rand = piezas[int(random(7))]; //int(random(7))
@@ -569,7 +561,7 @@ void sigpieza() {
   }
 }
 
-Boolean siguiente() {
+Boolean siguiente() { //Verificacion de pieza actual para mandar siguiente pieza
   if (cp == true) {
     cp = false;
     return true;
@@ -578,7 +570,6 @@ Boolean siguiente() {
       tempc = c;
       c = -1;
       cp = false;
-      pe = true;
       cambioP();
       return true;
     }
@@ -586,10 +577,9 @@ Boolean siguiente() {
   return false;
 }
 
-void drawP() {
+void drawP() { //Movimiento de piezas
   sigpieza();
   vel = 1400-(nivel*100);
-  c_c = c+1;
   if (millis() >= last+vel && (limyP() == true)) {
     c++;
     last = millis();
@@ -599,10 +589,9 @@ void drawP() {
   translate(hor*30, c*30);
   CadaP(rand);
   pop();
-  println(ct);
 }
 
-void CadaP(String rand) {                    
+void CadaP(String rand) { //Representacion de cada pieza de manera independiente                 
   if (rand == "T") {
     tR1 = 1;
     tR2 = 3;
@@ -766,14 +755,13 @@ void CadaP(String rand) {
     }
   }
 }
-
 //Variables del tablero
 int[][] tablero = new int[col+2][fil+1];
 int ct = 1;
 int ct1 = 0;
 
 //Funciones del tablero
-void Tablero() {
+void Tablero() { //Valores iniciales del tablero
   for (int i = 0; i <= col+1; i++) {
     for (int j = 0; j <= fil; j++) {
       tablero[i][j] = 0;
@@ -781,7 +769,7 @@ void Tablero() {
   }
 }
 
-void displayT() {
+void displayT() { //Dibujar el tablero
   strokeWeight(3.5);
   stroke(152, 147, 119);
   pushMatrix();
@@ -825,7 +813,7 @@ void displayT() {
   borrarFila();
 }
 
-void borrarFila() {
+void borrarFila() { //Borrar una fila cuando esta completa
   int borrar = 0;
   int tempi = 0;
   for (int j = 0; j < fil; j ++) {
@@ -855,8 +843,7 @@ void borrarFila() {
   }
 }
 
-void cambioP() {
-  if (c < 1 && pe == true) {
+void cambioP() { //Representacion de cada pieza en el tablero
     if (rand == "T") {
       if (tRotation == 0) {
         tablero[temph+1][tempc] = 1;
@@ -965,5 +952,4 @@ void cambioP() {
         tablero[temph+3][tempc] = 7;
       }
     }
-  }
 }
