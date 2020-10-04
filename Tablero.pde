@@ -4,7 +4,7 @@ int ct = 1;
 int ct1 = 0;
 
 //Funciones del tablero
-void Tablero() {
+void Tablero() { //Valores iniciales del tablero
   for (int i = 0; i <= col+1; i++) {
     for (int j = 0; j <= fil; j++) {
       tablero[i][j] = 0;
@@ -12,7 +12,7 @@ void Tablero() {
   }
 }
 
-void displayT() {
+void displayT() { //Dibujar el tablero
   strokeWeight(3.5);
   stroke(152, 147, 119);
   pushMatrix();
@@ -56,7 +56,7 @@ void displayT() {
   borrarFila();
 }
 
-void borrarFila() {
+void borrarFila() { //Borrar una fila cuando esta completa
   int borrar = 0;
   int tempi = 0;
   for (int j = 0; j < fil; j ++) {
@@ -86,8 +86,7 @@ void borrarFila() {
   }
 }
 
-void cambioP() {
-  if (c < 1 && pe == true) {
+void cambioP() { //Representacion de cada pieza en el tablero
     if (rand == "T") {
       if (tRotation == 0) {
         tablero[temph+1][tempc] = 1;
@@ -196,5 +195,4 @@ void cambioP() {
         tablero[temph+3][tempc] = 7;
       }
     }
-  }
 }
