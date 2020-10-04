@@ -3,20 +3,18 @@ final int col = 10;
 final int fil = 20;
 int last = 0;
 int c = 0;
-int c_c = 0;
 int x = 0;
 int y = 0; //579
 int temph = 0;
 int tempc = 0;
 boolean cp = true;
-boolean pe = false;
 //Variables para puntos y niveles
 int score = 0;
 int nivel = 0;
 int vel = 0;
 
 void setup() {
-  size(610, 620, P2D);
+  size(610, 620);
   Tablero();
   textSize(20);
 }
@@ -32,7 +30,7 @@ void draw() {
     push();
     textSize(55);
     fill(255);
-    text("Game Over", 160, 320);
+    text("Game Over", 155, 320);
     pop();
   }
 }
@@ -59,15 +57,13 @@ void keyPressed() {
   }
 }
 
-void Extras() {
+void Extras() { //Texto y decoracion
   push();
   textSize(40);
-  fill(255,0,0);
+  fill(255, 0, 0);
   text("TETRIS", 465, 115);
   pop();
-  push();
-  fill(255,0,0);
-  //text("Estadisticas: ", 480, 370);
+  fill(255, 0, 0);
   text("Lineas:", 30, 230);
   text("Puntaje:", 30, 360);
   text("Nivel:", 480, 300);
@@ -75,15 +71,13 @@ void Extras() {
   text((nivel+1), 500, 330);
   text(ct1, 50, 260);
   text(score, 50, 390);
-  pop();
-  push();
-  fill(0);
-  rect(151, 0, 300, 10);
-  pop();
 }
 
-Boolean Final() {
-  if ((c < 1 || tempc <= 1) && tablero[temph][c_c] != 0)
-    return true;
+Boolean Final() { //Game over
+  if (c < 1 || tempc <= 1) {
+    if ((rand != "I" && tablero[temph][c+1] != 0) || (rand == "I" && tablero[temph+3][c+1] != 0)) {
+      return true;
+    }
+  }
   return false;
 }
