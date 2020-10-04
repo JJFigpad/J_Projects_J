@@ -5,7 +5,7 @@ Versión del juego del Tetris implementada en Processing. Su ejecución debe ser
 ##### sketch_200826.pde
 Archivo principal del juego. Se ecuentran las variables generales, las funciones `setup()`, `draw()` y `keyPressed()`, junto con la decoración de la pantalla de juego y la pantalla de game over. 
 ##### Tablero.pde
-Archivo donde se encuentran todas las variables y funciones referentes a lo que seria el tablero del juego y la representación de los tetrominos dentro de este.
+Archivo donde se encuentran todas las variables y funciones referentes a lo que sería el tablero del juego y la representación de los tetrominos dentro de este. Tambien se encuentra el control de los niveles y del puntaje, ambos ligados a la eliminación de filas.
 ##### Piezas.pde
 Archivo donde se encuentran todas las variables y funciones referentes a lo que serian los tetrominos, su representaciones junto sus rotaciones y sus movimientos dentro del tablero.
 ##### Limites.pde
