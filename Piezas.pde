@@ -18,7 +18,7 @@ String[] piezas = {"T", "L", "J", "O", "Z", "S", "I"};
 String rand;
 
 //Funciones de las piezas
-void sigpieza() {
+void sigpieza() { //Siguiente empieza desde arriba del tablero
   if (siguiente() == true) {
     tRotation = int(random(4));
     rand = piezas[int(random(7))]; //int(random(7))
@@ -30,7 +30,7 @@ void sigpieza() {
   }
 }
 
-Boolean siguiente() {
+Boolean siguiente() { //Verificacion de pieza actual para mandar siguiente pieza
   if (cp == true) {
     cp = false;
     return true;
@@ -39,7 +39,6 @@ Boolean siguiente() {
       tempc = c;
       c = -1;
       cp = false;
-      pe = true;
       cambioP();
       return true;
     }
@@ -47,10 +46,9 @@ Boolean siguiente() {
   return false;
 }
 
-void drawP() {
+void drawP() { //Movimiento de piezas
   sigpieza();
   vel = 1400-(nivel*100);
-  c_c = c+1;
   if (millis() >= last+vel && (limyP() == true)) {
     c++;
     last = millis();
@@ -60,10 +58,9 @@ void drawP() {
   translate(hor*30, c*30);
   CadaP(rand);
   pop();
-  println(ct);
 }
 
-void CadaP(String rand) {                    
+void CadaP(String rand) { //Representacion de cada pieza de manera independiente                 
   if (rand == "T") {
     tR1 = 1;
     tR2 = 3;
