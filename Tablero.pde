@@ -70,6 +70,10 @@ void borrarFila() {
         score += 100;
         ct++;
         ct1++;
+        if (ct%6 == 0 && nivel < 12) {
+          nivel++;
+          ct -= 5;
+        }
         break;
       }
     }
@@ -79,10 +83,6 @@ void borrarFila() {
     for (int j = tempi; j >= 1; j --) {
       tablero[i][j] = tablero[i][j-1];
     }
-  }
-  if (ct%6 == 0 && nivel < 11) {
-    nivel++;
-    ct -= 5;
   }
 }
 
